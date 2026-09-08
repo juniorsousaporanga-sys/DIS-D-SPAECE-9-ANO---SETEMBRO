@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Aula - SPAECE - 9º Ano</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- MathJax blindado contra o R$ -->
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['\\(', '\\)']] }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --azul-escuro: #0F172A;
+            --azul-primario: #0284C7;
+            --dourado: #F59E0B;
+            --texto-principal: #334155;
+            --fundo-cinza: #F8FAFC;
+            --borda: #E2E8F0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--texto-principal);
+            background-color: #E2E8F0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .documento {
+            background-color: #FFFFFF;
+            width: 100%;
+            max-width: 950px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 85vh; /* Garante espaço para a navegação no fundo */
+        }
+
+        /* NAVEGAÇÃO ABAS PRINCIPAIS */
+        .nav-abas {
+            display: flex;
+            background-color: var(--azul-escuro);
+        }
+
+        .aba-btn {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border-bottom: 4px solid transparent;
+        }
+
+        .aba-btn:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .aba-btn.ativo { border-bottom: 4px solid var(--dourado); color: var(--dourado); }
+
+        .conteudo-aba {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.4s ease-in-out;
+            flex-grow: 1;
+            position: relative;
+        }
+        .conteudo-aba.ativo { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SISTEMA DE SLIDES (LÂMINAS) */
+        .slide { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .slide.ativo { display: block; }
+        
+        .nav-slides {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--borda);
+        }
+
+        .btn-nav {
+            background-color: var(--azul-primario);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-nav:hover { background-color: #0369A1; }
+        .btn-nav:disabled { background-color: #CBD5E1; cursor: not-allowed; }
+
+        .slide-contador { font-weight: 600; color: var(--azul-escuro); }
+
+        /* CAPA */
+        .capa { text-align: center; }
+        .logo-escola { width: 120px; margin-bottom: 20px; }
+        .capa h1 { color: var(--azul-escuro); margin-bottom: 5px; text-transform: uppercase; }
+        .capa h2 { color: var(--azul-primario); margin-bottom: 30px; }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            background-color: var(--fundo-cinza);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--borda);
+            text-align: left;
+        }
+        .habilidade-box {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #FEF3C7;
+            border-left: 5px solid var(--dourado);
+            text-align: left;
+            border-radius: 4px;
+        }
+        .habilidade-box p { margin-bottom: 10px; }
+
+        /* TIPOGRAFIA E ESTRUTURA */
+        .secao-titulo {
+            background-color: var(--azul-escuro);
+            color: white;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            border-left: 5px solid var(--dourado);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .subtitulo { color: var(--azul-primario); font-weight: 700; font-size: 1.1rem; margin-top: 25px; margin-bottom: 10px; border-bottom: 1px solid var(--borda); padding-bottom: 5px; }
+        p { line-height: 1.7; margin-bottom: 12px; font-size: 1.05rem; }
+        
+        .exemplo-box { background-color: #F0FDF4; padding: 20px; border-left: 4px solid #16A34A; margin-bottom: 20px; border-radius: 4px; }
+        .exemplo-aluno { background-color: #EFF6FF; border-left-color: #2563EB; }
+        .caixa-gatilho { background-color: #FEF3C7; padding: 15px; border-left: 4px solid var(--dourado); margin: 20px 0; border-radius: 4px; }
+        .caixa-gatilho strong { color: #B45309; }
+
+        /* REVELAR GABARITO (BOTÃO E CAIXA) */
+        .btn-revelar {
+            background-color: var(--dourado);
+            color: #78350F;
+            border: none;
+            padding: 8px 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-revelar:hover { background-color: #D97706; color: white; }
+
+        .resolucao-detalhada {
+            display: none;
+            background-color: #FFFFFF;
+            border: 2px dashed #16A34A;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 15px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        /* FORMATAÇÃO DO PASSO A PASSO (CONTAS) */
+        .passo-linha { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #E2E8F0; }
+        .passo-linha:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .matematica-destaque { font-family: monospace; font-size: 1.2rem; color: var(--azul-escuro); background-color: #F8FAFC; padding: 3px 8px; border-radius: 4px; font-weight: bold;}
+
+        /* CLASSES INTERATIVAS (VIA TECLADO E PRÉ-DEFINIDAS) */
+        .destacar { background-color: #FEF08A; padding: 2px 6px; border-radius: 4px; font-weight: 600; color: #854D0E; }
+        .sublinhar { text-decoration: underline; text-decoration-color: var(--dourado); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+        .revelar-hover { background-color: var(--texto-principal); color: transparent; padding: 2px 8px; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; user-select: none; }
+        .revelar-hover:hover { background-color: #DCFCE7; color: #166534; font-weight: bold; }
+
+        /* QUESTÕES */
+        .questao-box {
+            border: 1px solid var(--borda);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: var(--fundo-cinza);
+            font-size: 1.1rem;
+        }
+        .alternativas { list-style-type: upper-alpha; font-weight: 600; padding-left: 25px; margin-top: 20px;}
+        .alternativas li { margin-bottom: 15px; font-weight: 400; background-color: #FFFFFF; padding: 15px; border: 1px solid var(--borda); border-radius: 6px; transition: 0.2s;}
+        .alternativas li:hover { border-color: var(--azul-primario); background-color: #F0F9FF; }
+
+    </style>
+</head>
+<body>
+
+    <div class="documento">
+        
+        <div class="nav-abas">
+            <button class="aba-btn ativo" onclick="abrirAba(event, 'aba-capa')">1. Apresentação</button>
+            <button class="aba-btn" onclick="abrirAba(event, 'aba-teoria'); initSlides('teoria')">2. Teoria em Lâminas</button>
+            <button class="aba-btn" onclick="abrirAba(event, 'aba-atividades'); initSlides('atividade')">3. Projeção de Atividades</button>
+        </div>
+
+        <!-- ABA 1: CAPA -->
+        <div id="aba-capa" class="conteudo-aba ativo">
+            <div class="capa">
+                <img src="logo-escola.png" alt="Logo da Escola" class="logo-escola" onerror="this.style.display='none'">
+                <h1>Escola Itelvina Silvina de Pinho</h1>
+                <h2>Plano de Aula - Preparação SPAECE</h2>
+                
+                <div class="info-grid">
+                    <p><strong>Disciplina:</strong> Matemática</p>
+                    <p><strong>Professor:</strong> Ricardo Júnior</p>
+                    <p><strong>Turma:</strong> 9º Ano</p>
+                    <p><strong>Data:</strong> 08/09/2026 (Terça-feira)</p>
+                    <p><strong>Carga Horária:</strong> 100 minutos (2 Aulas)</p>
+                </div>
+
+                <div class="habilidade-box">
+                    <p><strong>🎯 Objetivo da Aula:</strong> Desenvolver a capacidade de traduzir situações do cotidiano para a linguagem matemática (modelagem) e solucionar problemas práticos através de sistemas de equações do 1º grau.</p>
+                    <p><strong>📖 Habilidade Alvo - 07(8EF04_M):</strong> Utilizar sistema de equações polinomiais de 1° grau, com duas incógnitas, representando uma situação por meio de modelagem matemática, na resolução de problema.</p>
+                </div>
+            </div>
+            
+            <div class="info-interativa" style="margin-top: 30px; padding: 15px; border: 1px dashed var(--azul-primario); border-radius: 5px; font-size: 0.95rem; background-color: #F8FAFC;">
+                <strong>💡 Funções de Interação (Use durante a Projeção):</strong><br>
+                Selecione qualquer texto com o mouse e aperte:<br>
+                <strong>[D]</strong> - <span class="destacar">Destacar (Amarelo)</span> | 
+                <strong>[S]</strong> - <span class="sublinhar">Sublinhar (Dourado)</span> | 
+                <strong>[O]</strong> - <span class="revelar-hover">Ocultar (Hover)</span> | 
+                <strong>[L]</strong> - Desfazer formatação
+            </div>
+        </div>
+
+        <!-- ABA 2: TEORIA EM LÂMINAS -->
+        <div id="aba-teoria" class="conteudo-aba">
+            
+            <!-- Lâmina 1: Contexto -->
+            <div class="slide slide-teoria ativo">
+                <div class="secao-titulo">1. Contextualização e Modelagem Matemática</div>
+                <p><strong>A Provocação (O Gancho Prático):</strong> "Se eu comprar 2 salgados e 1 refrigerante na cantina, a conta dá R$ 12,00. Se um de vocês for lá, comprar 1 salgado e 1 refrigerante exatamente iguais, a conta dá R$ 8,00. Sem usar matemática de lousa, quanto custa o salgado e o refrigerante?"</p>
+                
+                <p><strong>O Raciocínio Esperado:</strong> A única diferença visual entre as duas compras foi <span class="destacar">1 salgado a mais</span>. Se a diferença no dinheiro foi de R$ 4,00, a lógica nos diz que 1 salgado custa R$ 4,00. Consequentemente, para a conta dar R$ 8,00, o refrigerante também precisa custar <span class="revelar-hover">R$ 4,00</span>.</p>
+                
+                <p><strong>O que é a Modelagem?</strong> Na matemática, usamos letras para representar esses valores desconhecidos. Em vez de escrever "salgado", usamos a letra \(x\). Para "refrigerante", usamos a letra \(y\). Modelar um sistema é simplesmente <span class="sublinhar">traduzir o português para a matemática</span>.</p>
+            </div>
+
+            <!-- Lâmina 2: Substituição -->
+            <div class="slide slide-teoria">
+                <div class="secao-titulo">2. O Método da Substituição</div>
+                <p>Esse método consiste em "isolar" (deixar sozinha) uma letra em uma das equações e substituir o valor dela dentro da outra equação. Vamos resolver o problema da cantina.</p>
+                
+                <div class="exemplo-box">
+                    <strong>O Sistema da Cantina:</strong><br>
+                    Equação I (Minha compra): \(2x + y = 12\)<br>
+                    Equação II (Compra do aluno): \(x + y = 8\)
+                    
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">Mostrar Resolução Passo a Passo</button>
+                    
+                    <div class="resolucao-detalhada">
+                        <div class="passo-linha">
+                            <strong>Passo 1: Escolher e Isolar.</strong> Pegamos a Equação II por ser mais simples e isolamos o \(y\).<br>
+                            Se \(x + y = 8\), jogamos o \(x\) para o outro lado trocando o sinal: <br><span class="matematica-destaque">\(y = 8 - x\)</span>
+                        </div>
+                        <div class="passo-linha">
+                            <strong>Passo 2: Substituir.</strong> Pegamos a Equação I (\(2x + y = 12\)) e trocamos a letra \(y\) pelo que descobrimos (\(8 - x\)).<br>
+                            \(2x + (8 - x) = 12\)
+                        </div>
+                        <div class="passo-linha">
+                            <strong>Passo 3: Resolver.</strong> Juntamos \(x\) de um lado e números do outro.<br>
+                            \(2x - 1x + 8 = 12\)<br>
+                            \(1x = 12 - 8\)<br>
+                            <span class="matematica-destaque">\(x = 4\)</span> (O salgado custa R$ 4,00).
+                        </div>
+                        <div class="passo-linha">
+                            <strong>Passo 4: Achar a outra letra.</strong> Voltamos no Passo 1 e trocamos o \(x\) por 4.<br>
+                            \(y = 8 - 4\) &rarr; <span class="matematica-destaque">\(y = 4\)</span> (O refrigerante custa R$ 4,00).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lâmina 3: Adição -->
+            <div class="slide slide-teoria">
+                <div class="secao-titulo">3. O Método da Adição</div>
+                <p>Esse método é um "cancelamento visual". Somamos ou subtraímos as equações em pé para fazer uma das letras sumir. Excelente quando temos quantidades iguais da mesma letra.</p>
+                
+                <div class="exemplo-box">
+                    <strong>O Sistema da Papelaria:</strong><br>
+                    Maria comprou 3 cadernos (\(x\)) e 2 canetas (\(y\)) por R$ 35,00. João comprou 1 caderno (\(x\)) e 2 canetas (\(y\)) iguais por R$ 15,00.<br>
+                    Equação I: \(3x + 2y = 35\)<br>
+                    Equação II: \(x + 2y = 15\)
+                    
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">Mostrar Resolução Passo a Passo</button>
+
+                    <div class="resolucao-detalhada">
+                        <div class="passo-linha">
+                            <strong>Passo 1: Cancelar.</strong> Ambas têm <span class="destacar">\(+2y\)</span>. Vamos <em>subtrair</em> a Equação II da Equação I.<br>
+                            \((3x - 1x) + (2y - 2y) = (35 - 15)\)<br>
+                            <span class="matematica-destaque">\(2x + 0 = 20\)</span>
+                        </div>
+                        <div class="passo-linha">
+                            <strong>Passo 2: Resolver a Restante.</strong><br>
+                            \(2x = 20\) &rarr; \(x = 20 \div 2\)<br>
+                            <span class="matematica-destaque">\(x = 10\)</span> (O caderno custa R$ 10,00).
+                        </div>
+                        <div class="passo-linha">
+                            <strong>Passo 3: Achar a outra letra.</strong> Escolha \(x + 2y = 15\) e troque \(x\) por 10.<br>
+                            \(10 + 2y = 15\)<br>
+                            \(2y = 15 - 10 = 5\)<br>
+                            \(y = 5 \div 2\) &rarr; <span class="matematica-destaque">\(y = 2,50\)</span> (A caneta custa R$ 2,50).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lâmina 4: Prática Rápida -->
+            <div class="slide slide-teoria">
+                <div class="secao-titulo">4. Prática Rápida (Alunos)</div>
+
+                <div class="exemplo-box exemplo-aluno">
+                    <strong>Desafio 01: O Estacionamento</strong><br>
+                    Há carros (\(c\)) e motos (\(m\)), totalizando 15 veículos e 40 rodas.<br>
+                    Veículos: \(c + m = 15\)<br>
+                    Rodas: \(4c + 2m = 40\)<br>
+                    
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">Ver Resultado</button>
+                    <div class="resolucao-detalhada">
+                        Resolvendo por substituição (\(c = 15 - m\)) ou adição, encontramos:<br>
+                        <span class="matematica-destaque">5 carros e 10 motos</span>.
+                    </div>
+                </div>
+
+                <div class="exemplo-box exemplo-aluno">
+                    <strong>Desafio 02: As Idades</strong><br>
+                    A soma das idades é 30 anos. A diferença (subtração) do mais velho (\(x\)) e do mais novo (\(y\)) é 8 anos.<br>
+                    Sistema: \(x + y = 30\) e \(x - y = 8\)<br>
+                    
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">Ver Resultado</button>
+                    <div class="resolucao-detalhada">
+                        Pelo Método da Adição (somando tudo, o \(y\) cancela o \(-y\)):<br>
+                        \(2x = 38\) &rarr; \(x = 19\).<br>
+                        Se \(x=19\), então \(19 + y = 30\) &rarr; \(y = 11\).<br>
+                        <span class="matematica-destaque">Idades: 19 e 11 anos</span>.
+                    </div>
+                </div>
+                
+                <div class="caixa-gatilho">
+                    <strong>💡 GATILHO DE SALVAMENTO PEDAGÓGICO:</strong><br>
+                    Se a turma demonstrar fobia algébrica com as letras, desenhe bolinhas e quadrados no quadro. Mostre o Método da Adição como um "cancelamento visual".
+                </div>
+            </div>
+
+            <!-- Navegação da Teoria -->
+            <div class="nav-slides">
+                <button class="btn-nav" id="btn-prev-teoria" onclick="mudarSlide('teoria', -1)">< Voltar</button>
+                <span class="slide-contador" id="contador-teoria">Lâmina 1 de 4</span>
+                <button class="btn-nav" id="btn-next-teoria" onclick="mudarSlide('teoria', 1)">Avançar ></button>
+            </div>
+        </div>
+
+        <!-- ABA 3: ATIVIDADES (1 POR LÂMINA) -->
+        <div id="aba-atividades" class="conteudo-aba">
+            
+            <div class="slide slide-atividade ativo">
+                <div class="secao-titulo">Atividades - Foco SPAECE</div>
+                <div class="questao-box">
+                    <p><strong>01)</strong> João comprou 2 hambúrgueres e 3 sucos por R$ 32,00. Pedro comprou 1 hambúrguer e 2 sucos por R$ 18,00. Chamando o hambúrguer de \(x\) e o suco de \(y\), o sistema que representa a situação é:</p>
+                    <ol class="alternativas">
+                        <li>\(x + y = 32\) e \(x + y = 18\)</li>
+                        <li>\(2x + 3y = 32\) e \(x + 2y = 18\)</li>
+                        <li>\(2x + y = 32\) e \(3x + 2y = 18\)</li>
+                        <li>\(3x + 2y = 32\) e \(2x + y = 18\)</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resolução e Gabarito</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Gabarito: Letra B</strong><br>
+                        Tradução passo a passo:<br>
+                        - "2 hambúrgueres e 3 sucos por 32" vira: \(2x + 3y = 32\)<br>
+                        - "1 hambúrguer e 2 sucos por 18" vira: \(1x + 2y = 18\)<br>
+                        A única alternativa com este sistema exato é a B.
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo">Atividades - Foco SPAECE</div>
+                <div class="questao-box">
+                    <p><strong>02)</strong> Em um teste com 20 questões, cada acerto vale 5 pontos e cada erro perde 2 pontos. Sabendo que um aluno respondeu a todas as questões e obteve 72 pontos, quantas questões ele acertou?</p>
+                    <ol class="alternativas">
+                        <li>12</li>
+                        <li>14</li>
+                        <li>16</li>
+                        <li>18</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resolução e Gabarito</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Gabarito: Letra C</strong><br>
+                        1. Montagem: Acertos (\(x\)) + Erros (\(y\)) = 20 &rarr; \(x + y = 20\)<br>
+                        2. Pontos: \(5x - 2y = 72\)<br>
+                        3. Resolução (Substituição): Se \(y = 20 - x\)<br>
+                        \(5x - 2(20 - x) = 72\) &rarr; \(5x - 40 + 2x = 72\)<br>
+                        \(7x = 112\) &rarr; \(x = 112 \div 7 = 16\) acertos.
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo">Atividades - Foco SPAECE</div>
+                <div class="questao-box">
+                    <p><strong>03)</strong> Em uma promoção, 2 camisas e 1 calça custam R$ 130,00. Já 3 camisas e 2 calças custam R$ 220,00. Qual é o valor individual de uma calça?</p>
+                    <ol class="alternativas">
+                        <li>R$ 40,00</li>
+                        <li>R$ 50,00</li>
+                        <li>R$ 60,00</li>
+                        <li>R$ 70,00</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resolução e Gabarito</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Gabarito: Letra B</strong><br>
+                        1. Equações: \(2x + y = 130\) e \(3x + 2y = 220\)<br>
+                        2. Isolando \(y\) na primeira: \(y = 130 - 2x\)<br>
+                        3. Substituindo na segunda: \(3x + 2(130 - 2x) = 220\)<br>
+                        \(3x + 260 - 4x = 220\) &rarr; \(-x = -40\) &rarr; \(x = 40\) (Camisa).<br>
+                        4. Calça (\(y\)): \(y = 130 - 2(40) = 130 - 80 = 50\). Valor da calça é R$ 50,00.
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo">Atividades - Foco SPAECE</div>
+                <div class="questao-box">
+                    <p><strong>04)</strong> O perímetro (soma dos lados) de um terreno retangular é 40 metros. O comprimento mede 4 metros a mais que a largura. Sendo \(x\) o comprimento e \(y\) a largura, qual sistema modela o problema?</p>
+                    <ol class="alternativas">
+                        <li>\(2x + 2y = 40\) e \(x - y = 4\)</li>
+                        <li>\(x + y = 40\) e \(x + y = 4\)</li>
+                        <li>\(x \cdot y = 40\) e \(x - y = 4\)</li>
+                        <li>\(2x + 2y = 40\) e \(x + y = 4\)</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resolução e Gabarito</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Gabarito: Letra A</strong><br>
+                        - O perímetro de um retângulo é a soma de duas larguras e dois comprimentos: \(2x + 2y = 40\).<br>
+                        - O comprimento (\(x\)) tem 4 metros a mais que a largura (\(y\)), logo a diferença entre eles é 4: \(x - y = 4\).
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo">Atividades - Foco SPAECE</div>
+                <div class="questao-box">
+                    <p><strong>05)</strong> Em uma fazenda há vacas e galinhas, totalizando 30 cabeças e 100 patas. Quantas vacas há nessa fazenda?</p>
+                    <ol class="alternativas">
+                        <li>10</li>
+                        <li>15</li>
+                        <li>20</li>
+                        <li>25</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resolução e Gabarito</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Gabarito: Letra C</strong><br>
+                        1. Sistema: Vacas (\(v\)) + Galinhas (\(g\)) = 30 &rarr; \(v + g = 30\). Patas: \(4v + 2g = 100\).<br>
+                        2. Multiplicando a primeira por \(-2\) (Método da Adição): \(-2v - 2g = -60\).<br>
+                        3. Somando com a segunda (\(4v + 2g = 100\)):<br>
+                        \(2v = 40\) &rarr; \(v = 20\). São 20 vacas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo">Atividades - Foco SPAECE</div>
+                <div class="questao-box">
+                    <p><strong>06)</strong> Um teatro vendeu 200 ingressos. O ingresso de adulto custava R$ 20,00 e o de criança R$ 10,00. A arrecadação total foi de R$ 3.000,00. Quantos adultos pagantes havia no teatro?</p>
+                    <ol class="alternativas">
+                        <li>80</li>
+                        <li>100</li>
+                        <li>120</li>
+                        <li>150</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resolução e Gabarito</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Gabarito: Letra B</strong><br>
+                        1. Sistema: \(a + c = 200\) e \(20a + 10c = 3000\).<br>
+                        2. Isolando \(c\): \(c = 200 - a\).<br>
+                        3. Substituindo: \(20a + 10(200 - a) = 3000\) &rarr; \(20a + 2000 - 10a = 3000\)<br>
+                        \(10a = 1000\) &rarr; \(a = 100\). Havia 100 adultos.
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo">Atividades - Foco SPAECE</div>
+                <div class="questao-box">
+                    <p><strong>07)</strong> A soma de dois números é 45 e a diferença entre eles é 15. Qual sistema abaixo traduz corretamente essa afirmação matemática?</p>
+                    <ol class="alternativas">
+                        <li>\(x \cdot y = 45\) e \(x \div y = 15\)</li>
+                        <li>\(x + y = 45\) e \(x + y = 15\)</li>
+                        <li>\(x - y = 45\) e \(x + y = 15\)</li>
+                        <li>\(x + y = 45\) e \(x - y = 15\)</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resolução e Gabarito</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Gabarito: Letra D</strong><br>
+                        Soma significa adição (\(x + y\)). Diferença significa subtração (\(x - y\)). Tradução direta do português.
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo">Atividades - Foco SPAECE</div>
+                <div class="questao-box">
+                    <p><strong>08)</strong> Carlos comprou 5 canetas e 3 cadernos por R$ 45,00. Na mesma loja, Júlia comprou 2 canetas e 3 cadernos por R$ 36,00. Qual é o preço de uma caneta?</p>
+                    <ol class="alternativas">
+                        <li>R$ 2,00</li>
+                        <li>R$ 3,00</li>
+                        <li>R$ 4,00</li>
+                        <li>R$ 5,00</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resolução e Gabarito</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Gabarito: Letra B</strong><br>
+                        1. Sistema: \(5x + 3y = 45\) e \(2x + 3y = 36\).<br>
+                        2. Como os dois têm \(3y\), podemos usar a Adição (Subtraindo a de baixo pela de cima):<br>
+                        \((5x - 2x) + (3y - 3y) = 45 - 36\) &rarr; \(3x = 9\) &rarr; \(x = 3\). A caneta custa R$ 3,00.
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo" style="background-color: var(--dourado); color: #78350F;">Problemas Independentes (Curva de Dificuldade)</div>
+                <div class="questao-box">
+                    <p><strong>09) Modelagem de Comércio</strong> - Monte o sistema e calcule:</p>
+                    <ol class="alternativas">
+                        <li><strong>(Fácil)</strong> Na padaria, 1 pão e 1 café custam R$ 7,00. Sabendo que o café custa R$ 1,00 a mais do que o pão, descubra o preço de cada um.</li>
+                        <li><strong>(Médio)</strong> Na feira, 2 kg de tomate e 3 kg de batata custam R$ 21,00. 1 kg de tomate e 2 kg de batata custam R$ 13,00. Calcule o kg de cada.</li>
+                        <li><strong>(Difícil)</strong> Compraram 40 camisetas por R$ 1.100,00. A básica custou R$ 20,00 e a estampada R$ 35,00. Quantas de cada foram compradas?</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resoluções</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Resolução A:</strong> \(p + c = 7\) e \(c - p = 1\). Por adição: \(2c = 8 \rightarrow c = 4\). Café R$ 4,00 e Pão R$ 3,00.<br><br>
+                        <strong>Resolução B:</strong> \(2t + 3b = 21\) e \(1t + 2b = 13\). Dobrando a 2ª eq: \(2t + 4b = 26\). Subtraindo da 1ª: \(1b = 5\). Batata R$ 5,00 e Tomate R$ 3,00.<br><br>
+                        <strong>Resolução C:</strong> \(b + e = 40\) e \(20b + 35e = 1100\). Isolando \(b=40-e\). Fica \(20(40-e) + 35e = 1100\) &rarr; \(800 + 15e = 1100\) &rarr; \(15e = 300\) &rarr; \(e=20\). São 20 Básicas e 20 Estampadas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide slide-atividade">
+                <div class="secao-titulo" style="background-color: var(--dourado); color: #78350F;">Problemas Independentes (Curva de Dificuldade)</div>
+                <div class="questao-box">
+                    <p><strong>10) Raciocínio Lógico</strong> - Monte o sistema e calcule:</p>
+                    <ol class="alternativas">
+                        <li><strong>(Fácil)</strong> A soma de dois números é 80 e a diferença é 20. Quais são?</li>
+                        <li><strong>(Médio)</strong> Carros (4 rodas) e triciclos (3 rodas): 15 veículos e 55 rodas. Calcule a quantidade de cada.</li>
+                        <li><strong>(Desafio)</strong> A idade de um pai e filho somam 54. O dobro da idade do filho é igual à do pai menos 6. Qual a idade de cada um?</li>
+                    </ol>
+                    <button class="btn-revelar" onclick="toggleGabarito(this)">👁️ Revelar Resoluções</button>
+                    <div class="resolucao-detalhada">
+                        <strong>Resolução A:</strong> \(x + y = 80\) e \(x - y = 20\). Adição: \(2x = 100 \rightarrow x = 50\). Os números são 50 e 30.<br><br>
+                        <strong>Resolução B:</strong> \(c + t = 15\) e \(4c + 3t = 55\). Isolando \(t=15-c\). Fica \(4c + 3(15-c) = 55\) &rarr; \(4c + 45 - 3c = 55\) &rarr; \(c = 10\). Carros = 10, Triciclos = 5.<br><br>
+                        <strong>Resolução C:</strong> \(p + f = 54\) e \(2f = p - 6\). Ajustando a 2ª: \(p - 2f = 6\). Subtraindo as equações: \(3f = 48 \rightarrow f = 16\). Filho 16 anos, Pai 38 anos.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navegação das Atividades -->
+            <div class="nav-slides">
+                <button class="btn-nav" id="btn-prev-atividade" onclick="mudarSlide('atividade', -1)">< Voltar</button>
+                <span class="slide-contador" id="contador-atividade">Questão 1 de 10</span>
+                <button class="btn-nav" id="btn-next-atividade" onclick="mudarSlide('atividade', 1)">Avançar ></button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT DE NAVEGAÇÃO E INTERAÇÃO -->
+    <script>
+        // Lógica de Abas
+        function abrirAba(evt, idAba) {
+            var conteudos = document.getElementsByClassName("conteudo-aba");
+            for (var i = 0; i < conteudos.length; i++) {
+                conteudos[i].classList.remove("ativo");
+            }
+            
+            var botoes = document.getElementsByClassName("aba-btn");
+            for (var i = 0; i < botoes.length; i++) {
+                botoes[i].classList.remove("ativo");
+            }
+            
+            document.getElementById(idAba).classList.add("ativo");
+            evt.currentTarget.classList.add("ativo");
+        }
+
+        // Lógica de Slides (Lâminas)
+        let indexes = { 'teoria': 0, 'atividade': 0 };
+
+        function initSlides(tipo) {
+            let slides = document.querySelectorAll('.slide-' + tipo);
+            slides.forEach(s => s.classList.remove('ativo'));
+            slides[indexes[tipo]].classList.add('ativo');
+            atualizarBotoes(tipo, slides.length);
+        }
+
+        function mudarSlide(tipo, direcao) {
+            let slides = document.querySelectorAll('.slide-' + tipo);
+            slides[indexes[tipo]].classList.remove('ativo');
+            
+            indexes[tipo] += direcao;
+            
+            if (indexes[tipo] < 0) indexes[tipo] = 0;
+            if (indexes[tipo] >= slides.length) indexes[tipo] = slides.length - 1;
+            
+            slides[indexes[tipo]].classList.add('ativo');
+            atualizarBotoes(tipo, slides.length);
+        }
+
+        function atualizarBotoes(tipo, total) {
+            let btnPrev = document.getElementById('btn-prev-' + tipo);
+            let btnNext = document.getElementById('btn-next-' + tipo);
+            let contador = document.getElementById('contador-' + tipo);
+            
+            btnPrev.disabled = (indexes[tipo] === 0);
+            btnNext.disabled = (indexes[tipo] === total - 1);
+            
+            let rotulo = tipo === 'teoria' ? 'Lâmina' : 'Questão';
+            contador.innerText = rotulo + ' ' + (indexes[tipo] + 1) + ' de ' + total;
+        }
+
+        // Mostrar/Ocultar Gabarito Animado
+        function toggleGabarito(btn) {
+            let caixa = btn.nextElementSibling;
+            if (caixa.style.display === "block") {
+                caixa.style.display = "none";
+                btn.innerHTML = "👁️ Revelar Resolução Passo a Passo";
+            } else {
+                caixa.style.display = "block";
+                btn.innerHTML = "🙈 Ocultar Resolução";
+            }
+        }
+
+        // Teclas de Atalho (D, S, O, L)
+        document.addEventListener('keydown', function(event) {
+            const activeTag = document.activeElement.tagName.toLowerCase();
+            if (activeTag === 'input' || activeTag === 'textarea') return;
+
+            const key = event.key.toLowerCase();
+            if (['d', 's', 'o', 'l'].includes(key)) {
+                const selection = window.getSelection();
+                
+                if (!selection.isCollapsed) {
+                    if (key === 'l') {
+                        const range = selection.getRangeAt(0);
+                        let container = range.commonAncestorContainer;
+                        let el = container.nodeType === 3 ? container.parentNode : container;
+                        
+                        if (el.tagName === 'SPAN' && el.className.match(/(destacar|sublinhar|revelar-hover)/)) {
+                            const parent = el.parentNode;
+                            while (el.firstChild) {
+                                parent.insertBefore(el.firstChild, el);
+                            }
+                            parent.removeChild(el);
+                        }
+                        selection.removeAllRanges();
+                        return;
+                    }
+
+                    const range = selection.getRangeAt(0);
+                    const span = document.createElement('span');
+                    
+                    if (key === 'd') span.className = 'destacar';
+                    if (key === 's') span.className = 'sublinhar';
+                    if (key === 'o') span.className = 'revelar-hover'; 
+                    
+                    try {
+                        const fragment = range.extractContents();
+                        span.appendChild(fragment);
+                        range.insertNode(span);
+                        selection.removeAllRanges(); 
+                    } catch (e) {
+                        console.warn("Selecione o texto dentro de um único parágrafo.");
+                    }
+                }
+            }
+        });
+
+        // Iniciar Lâminas ao carregar a página
+        window.onload = function() {
+            initSlides('teoria');
+            initSlides('atividade');
+        }
+    </script>
+</body>
+</html>
